@@ -1,5 +1,46 @@
 "use strict";
 
+// Запросы
+function createRequest(requestBodyString, requestSourceString = "", callback, uploadInfoIsNeed = false) {
+
+  // Отправим запрос
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://jscp-diplom.netoserver.ru/");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send(requestBodyString);
+
+  // console.warn(`${requestSourceString} - ПОШЕЛ ЗАПРОС К СЕРВЕРУ!`);
+
+  if (uploadInfoIsNeed) {
+    // Генерируется периодически во время отправки на сервер
+    xhr.upload.onprogress = function (event) {
+      console.log(`Отправка данных... Отправлено ${event.loaded} из ${event.total} байт`);
+    };
+
+    xhr.upload.onerror = function () {
+      console.log("Произошла ошибка при загрузке данных на сервер!");
+    };
+  }
+
+  // Этот код сработает после того, как мы получим ответ сервера
+  xhr.onload = function () {
+    if (xhr.status != 200) {
+      // HTTP ошибка? Обработаем ошибку
+      alert("Ошибка: " + xhr.status);
+      return;
+    }
+
+    console.log(`${requestSourceString} - статус запроса: ${xhr.status} (${xhr.statusText})`);
+    callback(xhr.response);
+
+  };
+
+  xhr.onerror = function () {
+    alert("Запрос не удался");
+  };
+
+};
+
 // ****
 // Используйте функции-обёртки для предотвращения ошибок, связанных с неудачными попытками записи, отсутствием SessionStorage в браузере и дублированием кода.
 

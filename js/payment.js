@@ -35,26 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const hallsConfigurationObj = getJSON("pre-config-halls-paid-seats"); // из JSON в объект
     const hallConfiguration = hallsConfigurationObj[ticketDetails.hallId];
+    const requestBodyString = `event=sale_add&timestamp=${ticketDetails.seanceTimeStampInSec}&hallId=${ticketDetails.hallId}&seanceId=${ticketDetails.seanceId}&hallConfiguration=${hallConfiguration}`;
 
-    // Отправим данные
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://f0769682.xsph.ru/");
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(`event=sale_add&timestamp=${ticketDetails.seanceTimeStampInSec}&hallId=${ticketDetails.hallId}&seanceId=${ticketDetails.seanceId}&hallConfiguration=${hallConfiguration}`);
-
-    // Генерируется периодически во время отправки на сервер
-    xhr.upload.onprogress = function (event) {
-      console.log(`Отправка данных... Отправлено ${event.loaded} из ${event.total} байт`);
-    };
-
-    xhr.upload.onerror = function () {
-      console.log("Произошла ошибка при загрузке данных на сервер!");
-    }; // --
-
-    // Этот код сработает после того, как мы получим ответ сервера
-    xhr.onload = function () {
-      console.log(`PAYMENT - статус запроса: ${xhr.status} (${xhr.statusText})`);
-      window.location.href = "ticket.html";
-    };
+    // Формируем запрос на сервер (Передаем: 1. строка тела запроса, 2. строка с именем источника запроса для инфо в консоли, 3. какая функция будет вызвана после ответа сервера, 4. необходимость вывода данных о загрузке на сервер )
+    createRequest(requestBodyString, "PAYMENT", updateHtmlPayment, true);
   });
+
+  function updateHtmlPayment(serverResponse) {
+    window.location.href = "ticket.html";
+  }
 });
