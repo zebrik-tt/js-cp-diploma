@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Этот код сработает после того, как мы получим ответ сервера
     xhr.onload = function () {
       console.log(`PAYMENT - статус запроса: ${xhr.status} (${xhr.statusText})`);
-      window.location.href = "../ticket.html";
+      window.location.href = "ticket.html";
     };
   });
 });

@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setJSON("ticket-details", ticketDetails);
 
-        window.location.href = "../payment.html";
+        window.location.href = "payment.html";
       }
     });
   };
