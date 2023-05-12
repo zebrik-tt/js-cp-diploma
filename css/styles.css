@@ -446,4 +446,26 @@ body {
   width: 100%
  }
 
+ @media screen and (max-width: 425px) {
+   .movie .movie__info {
+     flex-direction: column;
+   }
+
+   .movie .movie__description {
+     padding-left: 0;
+     margin-bottom: 3rem;
+   }
+
+   .movie .movie__poster {
+     height: auto;
+     width: 50%;
+     margin: auto;
+   }
+
+   .movie .movie__poster .movie__poster-image {
+     height: auto;
+     width: 100%;
+   }
+ }
+
 
