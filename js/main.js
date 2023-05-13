@@ -39,9 +39,6 @@ function updateCalendar() {
 
 // Формирует запрос на сервер и приводит к обновлению разметки html
 function updateData() {
-  // Удалим старые слушатели событий, чтобы  запросы не множились при клике
-  removeListeners();
-
   // Формируем запрос на сервер (Передаем: 1. строка тела запроса, 2. строка с именем источника запроса для инфо в консоли, 3. какая функция будет вызвана после ответа сервера )
   createRequest("event=update", "MAIN", updateHtmlMain);
 };
@@ -130,6 +127,7 @@ function updateHtmlMain(serverResponse) {
 
   // Запишем данные залов в SessionStorage через JSON
   setJSON("config-halls", configHalls);
+
   addListeners();
 }
 
@@ -151,19 +149,6 @@ function onSeanceClick(event) {
   const seanceData = this.dataset;
 
   setJSON("data-of-the-selected-seance", seanceData);
-}
-
-// Удаляет предыдущие "слушалки", вешает новые после обновления разметки
-function removeListeners() {
-  const pageNavDay = document.querySelectorAll(".page-nav__day");
-  pageNavDay.forEach(element => {
-    element.removeEventListener("click", onDayClick);
-  });
-
-  const movieSeancesTime = document.querySelectorAll(".movie-seances__time");
-  movieSeancesTime.forEach(element => {
-    element.removeEventListener("click", onSeanceClick);
-  });
 }
 
 function addListeners() {
